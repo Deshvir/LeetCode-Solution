@@ -22,6 +22,7 @@ public:
     bool isPalindrome(ListNode* head) {
         int count = 0;
         ListNode *temp = head;
+        //count number of elements
         while(temp!= NULL){
             count++;
             temp = temp->next;
@@ -29,13 +30,14 @@ public:
        
         ListNode* current = head;
         int toskip = count/2+count%2;
+        //traverse till the middle of linked list. Aim is to reverse last half of linked list
         for(int i = 0 ; i < toskip ; i++){
             current = current->next;
         }
         
+        //reverse linked list
         ListNode *previous = NULL;
-        ListNode *nex = NULL;
-
+        ListNode *nex = NULL;        
         while(current!=NULL){
             nex=current->next;
             current->next=previous;
@@ -43,6 +45,7 @@ public:
             current = nex;
         }
         
+        //check for palindrome condition
         int j = 0;
         while(j<count/2){
             if(head->val == previous->val){
