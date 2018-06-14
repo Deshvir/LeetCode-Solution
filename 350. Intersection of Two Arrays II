@@ -1,0 +1,37 @@
+# Given two arrays, write a function to compute their intersection.
+
+# Example:
+# Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2, 2].
+
+# Note:
+# Each element in the result should appear as many times as it shows in both arrays.
+# The result can be in any order.
+
+# Concept:
+# 1. Initialise the value of each key by 0
+# 2. Increase the value of ley by 1 when same key appears
+# 3. Compare the value of nums2[] present in the nums1[]. If yes, put in vector and decrease the count. 
+#    Also check value of key is greater than 0.
+
+
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        map <int,int> myMap;
+        vector<int> vec;
+        for(int i = 0 ; i < nums1.size() ; i++){
+            myMap[nums1[i]] = 0; 
+        }
+        for(int i = 0 ; i < nums1.size() ; i++){
+            myMap[nums1[i]] += 1 ; //increase the key value when element appears
+        }
+        
+        for(int k = 0 ; k < nums2.size() ; k++){
+            if(myMap.find(nums2[k])->second > 0){
+                vec.push_back(nums2[k]);
+                myMap[nums2[k]] -=1;
+            }
+        }
+        return vec;
+    }
+};
