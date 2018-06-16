@@ -1,0 +1,45 @@
+# Find the sum of all left leaves in a given binary tree.
+
+# Example:
+
+#     3
+#    / \
+#   9  20
+#     /  \
+#    15   7
+
+# There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int flag = 0;
+    int sum = 0;
+    int sumOfLeftLeaves(TreeNode* root) {   
+        if(root == NULL)  // condition if input id []
+            return sum;
+        
+        if(!root->left && !root->right && flag == 1){
+            sum += root->val;            
+        }                
+        
+        if(root->left){
+            flag = 1;   //This will allow to add only left leaves in sum
+            sumOfLeftLeaves(root->left);
+        }
+        
+        if(root->right){
+            flag = 0;   //This will restrict to add right leaves in sum
+            sumOfLeftLeaves(root->right);
+        }
+        return sum;
+    }
+};
