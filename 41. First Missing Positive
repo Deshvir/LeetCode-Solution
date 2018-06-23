@@ -1,0 +1,41 @@
+/*
+* Given an unsorted integer array, find the smallest missing positive integer.
+
+* Example 1:
+* Input: [1,2,0]
+* Output: 3
+
+* Example 2:
+* Input: [3,4,-1,1]
+* Output: 2
+
+* Example 3:
+* Input: [7,8,9,11,12]
+* Output: 1
+
+* Note:
+* Your algorithm should run in O(n) time and uses constant extra space.
+*/
+
+//Solution : run time 6ms, beats 95.05%
+//step1: Put all elements in unordered set
+//Step2: Find the missing smallest positive element in set. Start scanning from 1 to vector length (worstcase to search is upto vector size if
+//  all the elements are positive) 
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int min = nums.size();
+        unordered_set <int> myset;
+        for(int i= 0 ; i < nums.size() ; i++){
+            myset.insert(nums[i]);
+        }
+        int i;
+        for(i = 1 ; i <= nums.size() ; i++){
+            if(myset.find(i) == myset.end())
+                break;
+        }
+        return i;
+    }
+};
+
