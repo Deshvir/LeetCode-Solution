@@ -17,9 +17,9 @@
 * Your algorithm should run in O(n) time and uses constant extra space.
 */
 
-//Solution : run time 6ms, beats 95.05%
-//step1: Put all elements in unordered set
-//Step2: Find the missing smallest positive element in set. Start scanning from 1 to vector length (worstcase to search is upto vector size if
+// Solution 1 : run time 6ms, beats 95.05% but uses extra space
+// Step1: Put all elements in unordered set
+// Step2: Find the missing smallest positive element in set. Start scanning from 1 to vector length (worstcase to search is upto vector size if
 //  all the elements are positive) 
 
 class Solution {
@@ -36,6 +36,31 @@ public:
                 break;
         }
         return i;
+    }
+};
+
+
+// Solution 2: Without using extra space
+// Step 1: Put each element at its right place:
+// Example: Put 4 at nums[3]
+// Step 2: At first place where element nums[i] does not contain i+1, return i+1
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size(), i = 0;
+        while(i<n){
+            if(nums[i]>0 && nums[i]<=n && nums[nums[i]-1] != nums[i]){
+                swap(nums[i], nums[nums[i]-1]);
+            }else{
+                i++;
+            }
+        }
+        for(int i = 0 ; i < n ; i++){
+            if(nums[i] != i+1)
+                return i+1;
+        }
+        return n+1;
     }
 };
 
