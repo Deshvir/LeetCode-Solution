@@ -37,3 +37,23 @@ public:
         return -1;
     }
 };
+
+//Solution 2: Without using sorting
+class Solution {
+public:
+    int dominantIndex(vector<int>& nums) {        
+        int maxOne = 0, maxTwo = 0, index = 0;
+        for(int i = 0 ; i < nums.size() ; i++){
+            if(maxOne < nums[i]){
+                maxTwo = maxOne;
+                maxOne = nums[i];
+                index = i;
+            }else if(maxTwo < nums[i]){
+                maxTwo = nums[i];
+            }
+        }
+        return (maxOne >= 2*maxTwo)? index : -1;
+    }
+};
+
+
