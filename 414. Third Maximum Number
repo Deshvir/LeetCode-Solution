@@ -1,0 +1,72 @@
+/*
+* Given a non-empty array of integers, return the third maximum number in this array. If it does not exist, return the maximum number. The time complexity must be in O(n).
+
+* Example 1:
+* Input: [3, 2, 1]
+* Output: 1
+* Explanation: The third maximum is 1.
+
+* Example 2:
+* Input: [1, 2]
+* Output: 2
+* Explanation: The third maximum does not exist, so the maximum (2) is returned instead.
+
+* Example 3:
+* Input: [2, 2, 3, 1]
+* Output: 1
+* Explanation: Note that the third maximum here means the third maximum distinct number.
+* Both numbers with value 2 are both considered as second maximum.
+*/
+
+// Solution 1: with set (9 ms runtime, beats 65% solution)
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        unordered_set <int> myset;
+        long maxone = LONG_MIN+2, maxtwo = LONG_MIN+1, maxthree = LONG_MIN;
+        for(int i = 0 ; i < nums.size() ; i++){
+            if(myset.find(nums[i]) == myset.end()){
+                if(maxone < nums[i]){
+                    maxthree = maxtwo;
+                    maxtwo = maxone;
+                    maxone = nums[i];
+                    myset.insert(nums[i]);
+                }else if(maxtwo < nums[i]){
+                    maxthree = maxtwo;
+                    maxtwo = nums[i];     
+                    myset.insert(nums[i]);
+                }else if(maxthree < nums[i]){
+                    maxthree = nums[i];
+                    myset.insert(nums[i]);
+                }
+            }
+        }
+        return myset.size()>2 ? maxthree:maxone;
+    }
+};
+
+
+// Solution 2: without set (8 ms runtime, beats 84% solution)
+
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        long maxone = LONG_MIN+2, maxtwo = LONG_MIN+1, maxthree = LONG_MIN;
+        for(int i = 0 ; i < nums.size() ; i++){
+            if(nums[i]== maxone || nums[i] == maxtwo || nums[i] == maxthree) continue;
+                if(maxone < nums[i]){
+                    maxthree = maxtwo;
+                    maxtwo = maxone;
+                    maxone = nums[i];
+                }else if(maxtwo < nums[i]){
+                    maxthree = maxtwo;
+                    maxtwo = nums[i];     
+                }else if(maxthree < nums[i]){
+                    maxthree = nums[i];
+                }
+            }
+        return maxthree<LONG_MIN+4? maxone:maxthree;
+    }
+};
+
+
