@@ -1,0 +1,78 @@
+/*
+* We are given head, the head node of a linked list containing unique integer values.
+* We are also given the list G, a subset of the values in the linked list.
+* Return the number of connected components in G, where two values are connected if they appear consecutively in the linked list.
+
+* Example 1:
+* Input: 
+* head: 0->1->2->3
+* G = [0, 1, 3]
+* Output: 2
+* Explanation: 
+* 0 and 1 are connected, so [0, 1] and [3] are the two connected components.
+
+* Example 2:
+* Input: 
+* head: 0->1->2->3->4
+* G = [0, 3, 1, 4]
+* Output: 2
+* Explanation: 
+* 0 and 1 are connected, 3 and 4 are connected, so [0, 1] and [3, 4] are the two connected components.
+
+* Note:
+* If N is the length of the linked list given by head, 1 <= N <= 10000.
+* The value of each node in the linked list will be in the range [0, N - 1].
+* 1 <= G.length <= 10000.
+* G is a subset of all values in the linked list.
+*/
+
+// Solution 1: Uisng unordered_Set
+// Step1: Put all the elements of G in the unordered set "myset"
+// step2: "count" will give the number of connected components
+// Step3: Initially Set the flag  = 1; There are two cases which are handled using flag:
+//        (a) If initial elemnts of G are not in the set, all those should be ignored and count should not be incresed, so we will 
+//            come in the third case of if-else
+//        (b) If initial elements are present in the myset, set the flag = 0. This will enable the second condition of if-else loop.
+//        (c) Consider Example: head: 0->1->2->3->4->5, G = [0,1,4,5]. In this case 3 and 4 are not present in the G. Now count should  
+//            not be increased separatly for 3 and then for 4. Count should be increased only once for 3 and 4. This is taken care by 
+//            assigning flag = 0;
+//Step4 : Return Value
+//        (a) Example: head: 0->1->2->3, G = [0,1,3]. Here, two sets are present [0,1] and [3]. Count will increase first time when
+//            will not find 2 in the G. It will not increase 2nd time for 3 beacaue there is no element after 3 which is not present
+//            in the G. Hence return count+1 for these corner cases else return count.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& G) {
+        unordered_set <int> myset;
+        for(int i = 0 ; i < G.size() ; i++){
+            myset.insert(G[i]);
+        }
+        int count = 0;
+        int flag = 1;
+        while(head!=NULL){
+            if(myset.find(head->val) != myset.end()){
+                head=head->next;
+                flag = 0;
+            }else if(flag == 0){
+                flag = 1;
+                count++;
+                head = head->next;
+            }else{
+                head = head->next;
+            }
+        }
+        return flag == 0 ? count+1 : count;
+    }
+};
+
+
+
