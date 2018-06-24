@@ -74,5 +74,21 @@ public:
     }
 };
 
+//Solution 2: 
+// Take second example in the description:
+// Trail the tail of sets in G
+// Head->next == NULL should be put first in condition than !myset.count(head->next->val) else it will through an error.
 
-
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& G) {
+        unordered_set <int> myset(G.begin(), G.end());
+        int count = 0;
+        while(head != NULL){
+            if(myset.count(head->val) && ((head->next == NULL) || !myset.count(head->next->val)))
+                count++;
+            head = head->next;
+        }
+        return count;
+    }
+}
