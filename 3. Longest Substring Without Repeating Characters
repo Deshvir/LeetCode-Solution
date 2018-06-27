@@ -1,0 +1,58 @@
+/**
+* Given a string, find the length of the longest substring without repeating characters.
+
+* Examples:
+* Given "abcabcbb", the answer is "abc", which the length is 3.
+* Given "bbbbb", the answer is "b", with the length of 1.
+* Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+*/
+
+// Solution Concept
+// 1. Outer loop will iterate from 2ns character till last character.
+// 2. Inner loop will iterate from initial position and new string will be parsed. Initially, j starts from 0th position and then
+// initial starting position of j will keep on changing if dame character is found. Below is an example which shows complete iteration
+// for an example.
+ 
+// For eg: "abcabxyz"
+// position of i | starting position of j
+//      first b  |     first a
+//      first b  |     first a
+//      first c  |     first a
+//      second a |     first a (but loop will break here), new starting position(new_j) of j is first b
+//      second b |     first b (but loop will break here), new starting position(new_j) of j is first c)
+//      first x  |     first c
+//      first y  |     first c
+//      first z  |     first c
+
+// 3. lis[] will store the maximum substring possible till the current character.
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int len = s.length();
+        vector <int> lis(len,1);
+        int count = 1;
+        int new_j = 0; //whenever matching character is found, this will change the initial position of new longest string.
+        for(int i = 1 ; i < len ; i++){
+            for(int j = new_j ; j < i ; j++){
+                if(s[i] != s[j]){
+                    count++;
+                }else{
+                    count = 1;
+                    new_j = j+1;
+                    break;
+                }
+            }
+            lis[i] = count;
+            count = 1;
+        }
+        int max = 0;
+        for(auto n : lis){
+            if(max < n)
+                max = n;
+        }
+        return max;
+    }
+};
+
