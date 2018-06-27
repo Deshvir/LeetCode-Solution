@@ -1,0 +1,60 @@
+/**
+* Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+
+* Integers in each row are sorted from left to right.
+* The first integer of each row is greater than the last integer of the previous row.
+
+* Example 1:
+* Input:
+* matrix = [
+*   [1,   3,  5,  7],
+*   [10, 11, 16, 20],
+*   [23, 30, 34, 50]
+* ]
+* target = 3
+* Output: true
+
+* Example 2:
+* Input:
+* matrix = [
+*   [1,   3,  5,  7],
+*   [10, 11, 16, 20],
+*   [23, 30, 34, 50]
+* ]
+* target = 13
+* Output: false
+*/
+
+//Concept: Binart Seatch is applied. Check the last element of mid row to decide whether to move beack or forward. 
+// 1. If target element is equal to matrix[mid][matrix[0].size-1] i.e last element in the mid row, return true;
+// 2. If target element is less than matrix[mid][matrix[0].size-1] i.e last element in the mid row, make mid row as last low.
+// 3. If target element is greater than matrix[mid][matrix[0].size-1] i.e last element in the mid row, make mid+1 row as first low.
+// 4. Once while loop is over and true is not returned inside while loop. Row number "first" contain the target element.
+// 5. Check for the target element in the row "first" i.e. matrix[first][coloumn] 
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if(matrix.size() == 0) return false;
+        int first = 0;
+        int last = matrix.size()-1;
+        int col = matrix[0].size()-1;
+        while(first < last){
+            int mid = (first + last)/2;
+            if(target == matrix[mid][col]){
+                return true;
+            }else if(target < matrix[mid][col]){
+                last = mid;
+            }else{
+                first = mid+1;
+            }
+        }
+        
+        for(int i = 0 ; i < matrix[0].size() ; i++){
+            if(matrix[first][i] == target){
+                return true;
+            }
+        }
+        return false;
+    }
+};
