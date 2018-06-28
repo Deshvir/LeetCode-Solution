@@ -57,3 +57,26 @@ public:
     }
 };  
 
+
+// Method2: Traverse the tree inorder fashion and keep on storing the value in pre for last maximum node and use it to compare 
+// with the current node;
+
+class Solution {
+public:
+       int minDiffInBST(TreeNode* root){                
+            int pre = INT_MIN;
+            int diff = INT_MAX;
+            helper(root, pre, diff);
+            return diff;
+        }
+    
+        void helper(TreeNode * root, int &pre, int &diff){
+            if(root){
+                helper(root->left, pre, diff);
+                if(pre!=INT_MIN)
+                    diff = min(diff, root->val - pre);
+                pre = root->val;
+                helper(root->right, pre, diff);
+            }
+        }
+}
