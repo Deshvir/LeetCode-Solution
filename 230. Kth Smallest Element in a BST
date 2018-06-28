@@ -55,3 +55,25 @@ public:
         }
     }
 };
+
+
+//Solution 2: Iterative method using stack
+class Solution {
+public:   
+   int kthSmallest(TreeNode* root, int k) {
+        stack<TreeNode*> st;
+        TreeNode *num;
+        while(root || !st.empty()){
+            while(root){
+                st.push(root);
+                root = root->left;
+            }            
+            root = st.top();
+            if(--k == 0){           
+                return root->val;
+            }
+            st.pop();
+            root = root->right;
+        }
+    } 
+}
