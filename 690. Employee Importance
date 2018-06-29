@@ -35,7 +35,7 @@ public:
 };
 */
 
-//Method: Solved using DFS
+//Method 1: Solved using DFS and Unordered map
 
 class Solution {
 public:
@@ -54,5 +54,25 @@ public:
         for(auto m : my_map[id]->subordinates){
             dfs(my_map, sum, m);
         }
+    }
+};
+
+//Method 1(part2): Using DFS and unordered_map but with few lines of code
+class Solution {
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        unordered_map<int, Employee*> my_map;
+        for(auto n : employees){
+            my_map[n->id] = n;
+        }
+        return dfs(my_map, id);        
+    }
+    
+    int dfs(unordered_map<int, Employee*> my_map, int id){
+        int sum = my_map[id]->importance;
+        for(auto m : my_map[id]->subordinates){
+            sum +=  dfs(my_map, m);
+        }
+        return sum;
     }
 };
