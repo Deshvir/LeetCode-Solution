@@ -14,7 +14,7 @@
  * };
  */
  
- //Solution 1: Using vector
+ //Solution 1: Using vector //O(1) time and O(n) space
  
 class BSTIterator {
 public:
@@ -53,7 +53,7 @@ private:
  */
  
  
-//Solution2: Using stack
+//Solution2: Using stack //O(1) time and O(n) space
 // Use post order traversal while using stack because then only leftmost element will come on top;
 
 class BSTIterator {
@@ -86,3 +86,38 @@ private:
     stack <TreeNode*> st;
     int count = 0;
 };
+
+
+//Method 3 Using stack O(1) time and O(h) space
+class BSTIterator {
+public:
+    BSTIterator(TreeNode *root) {
+        helper(root);
+    }
+    
+    void helper(TreeNode *root){
+        if(root){    
+            st.push(root);
+            helper(root->left);
+            cout<<"root "<<root->val<<"\n";
+        }
+    }
+
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        return !st.empty();
+    }
+
+    /** @return the next smallest number */
+    int next() {
+        TreeNode* result = st.top();
+        st.pop();
+        helper(result->right);
+        return result->val; 
+    }
+    
+private:
+    stack <TreeNode*> st;
+    int count = 0;
+};
+
