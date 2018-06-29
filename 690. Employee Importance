@@ -76,3 +76,25 @@ public:
         return sum;
     }
 };
+
+
+// Method 2: Using Employee array and DFS . Beats 99.9%
+
+class Solution {
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        Employee* arr[2000] = {0};
+        for(auto n : employees){
+            arr[n->id] = n;
+        }        
+        int sum = 0;
+        return dfs(arr, id, sum);
+    }
+    
+    int dfs(Employee* arr[2000], int id, int &sum){
+        sum += arr[id]->importance;
+        for(int  i = 0 ; i < arr[id]->subordinates.size() ; i++)
+            dfs(arr, arr[id]->subordinates[i], sum);
+        return sum;
+    }
+};
