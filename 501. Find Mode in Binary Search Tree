@@ -1,0 +1,58 @@
+/*
+* Given a binary search tree (BST) with duplicates, find all the mode(s) (the most frequently occurred element) in the given BST.
+
+* Assume a BST is defined as follows:
+
+* The left subtree of a node contains only nodes with keys less than or equal to the node's key.
+* The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
+* Both the left and right subtrees must also be binary search trees.
+* For example:
+* Given BST [1,null,2,2],
+*    1
+*     \
+*      2
+*     /
+*   2
+* return [2].
+
+* Note: If a tree has more than one mode, you can return them in any order.
+* Follow up: Could you do that without using any extra space? (Assume that the implicit stack space 
+* incurred due to recursion does not count).
+*/
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//Solution 1: DFS using map. This method use extra memory and takes time:
+//            Normal DFS is implemented using inorder traversal
+
+class Solution {
+public:
+    vector<int> findMode(TreeNode* root) {
+        unordered_map<int, int> mymap;
+        int max = 0;
+        helper(root, mymap, max);
+
+        vector<int> result;
+        for(auto it : mymap){
+            if(it.second == max)
+                result.push_back(it.first);
+        }        
+        return result;
+    }
+    
+    void helper(TreeNode* root, unordered_map<int, int> &mymap, int &max_val){
+            if(!root) return;
+            ++mymap[root->val];
+            max_val = max(max_val,mymap[root->val]);
+            helper(root->left, mymap, max_val);
+            helper(root->right, mymap, max_val);
+    }
+};
