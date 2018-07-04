@@ -1,0 +1,56 @@
+/**
+* Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree 
+* has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes.
+
+* Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+* If no such second minimum value exists, output -1 instead.
+
+* Example 1:
+* Input: 
+*     2
+*    / \
+*   2   5
+*      / \
+*     5   7
+
+* Output: 5
+* Explanation: The smallest value is 2, the second smallest value is 5.
+
+* Example 2:
+* Input: 
+*     2
+*    / \
+*   2   2
+
+* Output: -1
+* Explanation: The smallest value is 2, but there isn't any second smallest value.
+*/
+
+//Solution Approach:
+// Initialize both first and second smallest as INT_MAX
+// first_min = second_min = INT_MAX
+// Apply DFS at root node.
+// a) If the current node value is smaller than first_min, then update first
+// and second_min.
+// b) Else if the current node value is smaller than second_min then update
+// second_min
+
+class Solution {
+public:
+    int second_min = INT_MAX;
+    int first_min = INT_MAX;
+    int findSecondMinimumValue(TreeNode* root) {
+        if(!root) return INT_MAX;
+        findSecondMinimumValue(root->left);
+        if(root->val<first_min){
+            second_min = first_min;
+            first_min = root->val;
+        }
+        else if(root->val < second_min && root->val!=first_min){
+            second_min = root->val;
+        }
+        findSecondMinimumValue(root->right);        
+        return second_min==INT_MAX?-1:second_min;
+    }
+};
