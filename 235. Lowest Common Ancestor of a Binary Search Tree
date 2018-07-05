@@ -1,0 +1,102 @@
+/**
+* Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+
+* According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as 
+* the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+* Given binary search tree:  root = [6,2,8,0,4,7,9,null,null,3,5]
+
+*         _______6______
+*        /              \
+*     ___2__          ___8__
+*    /      \        /      \
+*    0      _4       7       9
+*          /  \
+*          3   5
+* Example 1:
+* Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+* Output: 6
+* Explanation: The LCA of nodes 2 and 8 is 6.
+* Example 2:
+
+* Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+* Output: 2
+* Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself 
+             according to the LCA definition.
+* Note:
+
+* All of the nodes' values will be unique.
+* p and q are different and both values will exist in the BST.
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+/** Solution1.a : Using DFS:
+              1. If p>q, excange the values.
+              2. Check if the root value lies between the p and q or p is less then root->val and q is greater then root->val.
+              if this condition is satisfied, root is the LCA.
+              3. If p and q both are less than root->val, call helper with root->left
+              4. If p and q both are greater than root->val, call helper with root->right
+ */
+ 
+ 
+class Solution {
+public:
+    TreeNode* lca;
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(p->val < q->val){
+            helper(root, p, q);    
+        }else{
+            helper(root, q, p);
+        }
+        return lca;
+    }
+    
+    void helper(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(p->val<=root->val && q->val>=root->val)
+            lca = root;
+        else if(p->val<=root->val && q->val<= root->val)
+            helper(root->left, p, q);
+        else if(p->val>=root->val && q->val>= root->val)
+            helper(root->right, p, q);
+    }
+};
+
+
+/*Solution 1.b : Using above cocept but precise code*/
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (p -> val < root -> val && q -> val < root -> val)
+            return lowestCommonAncestor(root -> left, p, q);
+        if (p -> val > root -> val && q -> val > root -> val)
+            return lowestCommonAncestor(root -> right, p, q);
+        return root;
+    }
+};
+
+
+/*Solution 2: Iterative Solution*/
+
+class Solution { 
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* cur = root;
+        while (true) {
+            if (p -> val < cur -> val && q -> val < cur -> val)
+                cur = cur -> left;
+            else if (p -> val > cur -> val && q -> val > cur -> val)
+                cur = cur -> right;
+            else return cur; 
+        }
+    }
+};
