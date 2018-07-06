@@ -21,6 +21,9 @@
 * 0 <= A[i][j] <= 1
 */
 
+
+//Solution 1: Using Brute Force. It beats 100% leetcode result
+
 class Solution {
 public:
     vector<vector<int>> flipAndInvertImage(vector<vector<int>>& A) {
@@ -45,3 +48,11 @@ public:
         return A;
     }
 };
+
+
+//Solution 2: Using bit operator
+    vector<vector<int>> flipAndInvertImage(vector<vector<int>>& A) {
+        for (auto & row : A) reverse(row.begin(), row.end());
+        for (auto & row : A) for (int & i: row) i^=1;
+        return A;
+    }
