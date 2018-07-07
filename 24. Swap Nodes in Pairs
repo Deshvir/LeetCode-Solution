@@ -10,7 +10,7 @@
 * You may not modify the values in the list's nodes, only nodes itself may be changed.
 */
 
-
+/*Solution 1: By modifying the node value */
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
@@ -27,4 +27,21 @@ public:
         }
         return head;
     }
+};
+
+
+/*Solution 2: Without modifying the node value */
+class Solution {
+public:
+     ListNode* swapPairs(ListNode* head) {
+         if(head == NULL)
+             return NULL;
+         if(head->next == NULL)
+             return head;
+         ListNode *nex = head->next;
+         head->next = swapPairs(nex->next);
+         nex->next = head;
+         
+         return nex;
+     }        
 };
