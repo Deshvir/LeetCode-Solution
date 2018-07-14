@@ -1,0 +1,63 @@
+/**
+* Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+* reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+* You may not modify the values in the list's nodes, only nodes itself may be changed.
+
+* Example 1:
+* Given 1->2->3->4, reorder it to 1->4->2->3.
+
+* Example 2:
+* Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ /*Solution: using 3 steps*/
+ 
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if(!head) return;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        //Step1: find the mid element of linked list
+        while(fast!=NULL && fast->next!=NULL &&fast->next->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        if(head->next!=NULL){
+            //Step2:reverse second half of the linked list
+            ListNode* mid = slow;
+            ListNode* start = mid->next;
+            ListNode* then = start->next;
+            while(start && start->next!=NULL){
+                start->next = then->next;
+                then->next=mid->next;
+                mid->next = then;
+                then = start->next;
+            }
+
+            //Step3: add elements as per questions now ir reoder the list
+            then = mid->next;
+            start=head;
+            ListNode* temp;
+            while(then){
+                temp=then;
+                then=then->next;
+                mid->next=then;
+                temp->next=start->next;
+                start->next=temp;
+                start=temp->next;
+            }
+        }
+    }
+};
