@@ -66,3 +66,23 @@ public:
         return 1;
     }
 };
+
+
+/*Solution2: */
+
+class Solution {
+public:
+    int countPrimeSetBits(int L, int R) {
+        set<int> my_set = {2,3,5,7,11,13,19,17,23,29,31};
+        int result = 0;
+        int cnt = 0;
+        for(int i = L; i<=R ;i++){
+            int cnt = 0;
+            for(int j = i ; j ; j>>=1){
+                cnt += j&1;
+            }
+            result+=my_set.count(cnt);
+        }
+        return result;
+    }
+};
