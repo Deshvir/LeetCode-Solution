@@ -38,3 +38,34 @@ public:
         return dummy->next; // because original head might me replaced in example like [1,1,1,2,3]. We cannot return head;
     }
 };
+
+
+/*
+Solution2: 
+*/
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head) return NULL;
+        if(head && !head->next) return head;
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* pre = dummy;
+        ListNode* then = head;
+        while(then && then->next){
+            if(then->val == then->next->val){
+                while(then && then->next && (then->val == then->next->val)){
+                    then = then->next;
+                }
+                if(then) then = then->next;
+            }else if(then && then->next){
+                pre->next = then;
+                pre = then;
+                then = then->next;
+            }
+            pre->next = then;      //this will take care of 2 types of conditions (1)like 1->2->3->3 where then will null at the end.
+                                   //(2) like 1->2->2->3->3->4 here when then will reach at 4, this will connect the 1->4
+        }
+        return dummy->next;
+    }
+}
