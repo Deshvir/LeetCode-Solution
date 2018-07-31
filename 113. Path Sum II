@@ -1,0 +1,97 @@
+/**
+* Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+
+* Note: A leaf is a node with no children.
+
+* Example:
+
+* Given the below binary tree and sum = 22,
+
+*       5
+*      / \
+*     4   8
+*    /   / \
+*   11  13  4
+*  /  \    / \
+* 7    2  5   1
+* Return:
+
+* [
+*    [5,4,11,2],
+*    [5,8,4,5]
+* ]
+
+*/
+
+/*
+Solution 1: Using DFS (pass vector as global variable)
+            Note: Never declare vector(vec_in) function inside dfs() function because everytime dfs() will be called
+            vec_in will act as new vector
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> vec;
+    vector<int> vec_in;
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        int add_in;      
+        dfs(root, sum, add_in);
+        return vec;
+    }
+    
+    void dfs(TreeNode* root, int sum, int add_in){
+        if(!root) return;
+
+        add_in+=root->val;
+        vec_in.push_back(root->val);
+
+        if(add_in == sum && (root->left== NULL) && (root->right==NULL)){
+            vec.push_back(vec_in);
+        }
+
+        dfs(root->left, sum, add_in);
+        dfs(root->right, sum, add_in);
+        vec_in.pop_back();
+    }
+};
+
+/*
+Solution 1: Using DFS (pass vector as argument variable)
+            Note: Never declare vector(vec_in) function inside dfs() function because everytime dfs() will be called
+            vec_in will act as new vector
+*/
+
+class Solution {
+public:
+    vector<vector<int>> vec;
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        int add_in;      
+        vector<int> vec_in;
+        dfs(root, sum, add_in, vec_in);
+        return vec;
+    }
+    
+    void dfs(TreeNode* root, int sum, int add_in, vector<int> vec_in){
+        if(!root) return;
+
+        add_in+=root->val;
+        vec_in.push_back(root->val);
+
+        if(add_in == sum && (root->left== NULL) && (root->right==NULL)){
+            vec.push_back(vec_in);
+        }
+
+        dfs(root->left, sum, add_in, vec_in);
+        dfs(root->right, sum, add_in, vec_in);
+        vec_in.pop_back();
+    }
+};
