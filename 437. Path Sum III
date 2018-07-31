@@ -63,3 +63,22 @@ public:
         dfs(root->right,sum_in, sum);
     }
 };
+
+
+/*
+Solution 2: 
+*/
+class Solution {
+public:
+    
+    int count = 0;
+    int pathSum(TreeNode* root, int sum) {
+        if(!root) return 0;
+        return dfs(root, sum)+pathSum(root->left, sum)+pathSum(root->right, sum);
+    }
+    
+    int dfs(TreeNode* root, int sum_left){
+        if(!root) return 0;
+        return ((sum_left == root->val)? 1:0) + dfs(root->left, sum_left - root->val) + dfs(root->right, sum_left - root->val);
+    }
+};
