@@ -54,3 +54,24 @@ public:
         return root->val;
     }
 };
+
+
+/*
+Solution2: Without using global variable
+*/
+class Solution {
+public:
+    int findTilt(TreeNode* root){
+        int sum = 0;
+        dfs(root, sum);
+        return sum;
+    }
+    
+    int dfs(TreeNode* root, int &sum){
+        if(!root) return 0;
+        int left = dfs(root->left, sum);
+        int right = dfs(root->right, sum);
+        sum+=abs(left-right);
+        return left+right+root->val;
+    }
+};
