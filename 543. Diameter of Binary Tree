@@ -1,0 +1,73 @@
+/**
+* Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of 
+* the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+* Example:
+* Given a binary tree 
+*           1
+*          / \
+*         2   3
+*        / \     
+*       4   5    
+* Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
+
+* Note: The length of path between two nodes is represented by the number of edges between them.
+*/
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+ /*
+ Solution 1: This is very slow solution becuase we are visiting at each node and finding the maximum diameter at each node. 
+ So Time complexity is O(nlogn).
+ */
+ 
+class Solution {
+public:
+    int max_val = 0;
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(!root) return 0;
+        int left = dfs(root->left);
+        int right = dfs(root->right);
+        max_val = max(max_val, left+right);
+        diameterOfBinaryTree(root->left);
+        diameterOfBinaryTree(root->right);
+        return max_val;
+    }
+    
+    int dfs(TreeNode* root){
+        if(!root) return 0;
+        return max(dfs(root->left),dfs(root->right))+1;
+    }
+};
+
+/*
+Solution 2: This solution takes O(n) times because it visites each node only once and space complexity os also O(n) because
+that can be the maximum size of stack 
+*/
+
+class Solution {
+public:
+    int max_width = 0;
+        
+    int dfs(TreeNode* root){
+        if(!root) return 0;
+        int left = dfs(root->left);
+        int right = dfs(root->right);
+        max_width = max(max_width, left+right);
+        return max(left, right)+1;
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root) {
+        dfs(root);
+        return max_width;
+    }
+};
