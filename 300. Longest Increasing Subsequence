@@ -51,12 +51,10 @@ public:
         if(nums.size() == 1) return 1;
         vector<int> sub (nums.size(), 1);
         int maxVal = 0;
-        int tail = 0;
         for(int i = 1 ; i < nums.size() ; i++){
-            for(int j = tail ; j < i ; j++){
+            for(int j =  ; j < i ; j++){
                 if(nums[j]<nums[i] && sub[j]+1>sub[i]){
                     sub[i] = sub[j]+1;
-                    tail = i;
                 }
             }
             if(maxVal < sub[i]){
