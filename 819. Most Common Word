@@ -69,7 +69,7 @@ public:
 };
 
 /*
-Solution 1: (a) Remove punctuation symbols
+Solution 2: (a) Remove punctuation symbols
             (b) Convert to lower case letter
             (c) Put count of each word in the map 
             (d) return word with maximum count
@@ -92,5 +92,36 @@ public:
             }
         }
         return result;
+    }
+};
+
+
+/*
+Solution 2: With pair 
+            (a) Remove punctuation symbols
+            (b) Convert to lower case letter
+            (c) Put count of each word in the map 
+            (d) return word with maximum count
+            Note: iterator is not used 
+*/
+
+
+class Solution {
+public:
+    string mostCommonWord(string paragraph, vector<string>& banned) {
+        unordered_set<string> banned_set(banned.begin(), banned.end());
+        unordered_map<string, int> count;
+        for(auto &c : paragraph) c = isalpha(c)?tolower(c):' ';
+        stringstream iss(paragraph);
+        string word, result;
+        int maxVal = 0;
+        pair<string, int> res(" ", 0);
+        while(iss>>word){
+            if(banned_set.find(word) == banned_set.end() && ++count[word] > maxVal){
+                res = make_pair(word, count[word]);
+                maxVal = count[word];
+            }
+        }
+        return res.first;
     }
 };
