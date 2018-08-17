@@ -88,9 +88,9 @@ public:
         int b = find(y, parent);
         if(a == b) return;    // this will show cycle
         if(rank[a]>rank[b])
-            parent[y] = x;
+            parent[y] = a;
         else if(rank[a]<rank[b])
-            parent[x] = y;
+            parent[x] = b;
         else{
             parent[y] = x;    // this case will occur only for first time call to union_by_rank 
             rank[x]++;
