@@ -77,11 +77,6 @@ public:
             x=parent[x];
         return x;
     }
-       
-    void join(vector<int>& parent, int x, int y){
-        if(find(x,parent)!=find(y,parent))
-            parent[y]=x;
-    }
     
     void union_by_rank(vector<int>& parent, vector<int>&rank, int x, int y){
         int a = find(x, parent);
