@@ -36,7 +36,15 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- 
+
+/*
+Solution 1: Store the elements in the vector array. Start putting element in the hash map. We can check if differce of 
+            Target and current node exist in the hash map.
+            If difference exist, then return true else put the current node value in the hash map ans move to left or 
+            right child node.
+*/
+
+
 class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
@@ -58,5 +66,30 @@ public:
         storeBuffer(root->left, buffer);
         buffer.push_back(root->val);
         storeBuffer(root->right, buffer); 
+    }
+};
+
+
+
+/*
+Solution 2: Withput using additional array, we can check if differce of Targer and current node exist in the hash map.
+             If difference exist, then return true else put the current node value in the hash map ans move to left or 
+             right child node. Will require O(n) time ans O(n) space
+*/
+
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        unordered_set<int> hash_map;
+        return helper(root, hash_map, k);
+    }
+    
+    bool helper(TreeNode* root, unordered_set<int> &hash_map, int k){
+        if(!root) return NULL;
+        if(hash_map.find(k- root->val) != hash_map.end()) return true;
+        else{
+            hash_map.insert(root->val);
+        }
+        return (helper(root->left, hash_map, k) || helper(root->right, hash_map, k));
     }
 };
