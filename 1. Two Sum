@@ -1,0 +1,33 @@
+/*
+* Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+* You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+* Example:
+* Given nums = [2, 7, 11, 15], target = 9,
+* Because nums[0] + nums[1] = 2 + 7 = 9,
+* return [0, 1].
+*/
+
+/*
+Solution: 1. First check if the differnece of current nuber from array from target exist in the hash map. If it does then store
+          the store the index of difference and current number in the result vector and break.
+          2. If differnece doesn't exist in the hash map, store it in the hash map.
+*/
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> result;
+        unordered_map<int, int> hash_map;
+        for(int i = 0 ; i < nums.size() ; i++){
+            int tofind = target-nums[i];
+            if(hash_map.find(tofind) != hash_map.end()){
+                result.push_back(hash_map[tofind]);
+                result.push_back(i);
+                break;
+            }
+            hash_map[nums[i]] = i;
+        }
+        return result;
+    }
+};
